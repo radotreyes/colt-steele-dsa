@@ -71,3 +71,110 @@ function same(arr1, arr2) {
   return true
 }
 ```
+
+#### my turn: write an anagram verification function
+
+(see `anagram.js`)
+
+### multiple pointers
+
+- creating **pointers** that move towards the beginning, end, or middle, based on a certain condition.
+- very efficient, minimal space cmplexity
+
+#### implementation
+
+- this is already implemented in doubly linked lists and trees:
+
+```js
+/* doubly linked list */
+function ListNode(data) {
+  this.data = data
+  this.prev = null
+  this.next = null
+}
+
+const rootNode = new ListNode(`i'm the root node`)
+rootNode.next = new ListNode(`i'm the second node`)
+rootNode.next.prev = rootNode
+rootNode.next.next = new ListNode(`i'm the third node`)
+rootNode.next.next.prev = rootNode.next.next
+
+// to analyze this linked list, we can choose to insert pointers at the beginning (head) and end (tail) of the list, then move inwards.
+
+// for a tree, we can choose to traverse breadth-first or depth-first, etc.
+```
+
+- **i did this to analyze that PBX stuff; i used two pointers which buffered array indices depending on what the data being observed was**
+
+#### implementation challenge: sumZero
+
+- **problem statement**: write a function which accepts a sorted array of integers. the function should find the first pair where the sum is zero.
+
+```js
+function sumZero(arr) {
+  // select pointers to start at both ends of the array
+  let p1 = 0
+  let p2 = arr.length - 1
+  while (p1 < p2) {
+    const sum = arr[p1] + arr[p2]
+    if (sum < 0) {
+      // if we have a negative value, arr[p1] needs to be smaller
+      p1 += 1
+    } else if (sum === 0) {
+      // if they add up to zero, we're done
+      return [arr[p1], arr[p2]]
+    } else {
+      // otherwise, move the ending pointer
+      p2 -= 1
+    }
+  }
+
+  return undefined
+}
+```
+
+#### implementation challenge: countUniqueValues
+
+- **problem statement**: implement a function which accepts a sorted array, then counts the unique values in the array
+
+dirty cheater caching version:
+
+```js
+function countUniqueValues(arr) {
+  /* O(n) runtime */
+  return arr.reduce(
+    // O(n)
+    ({ unique, cache }, val) => {
+      if (!cache[val]) {
+        // O(1)
+        unique += 1
+        cache[val] = 1 // O(1)
+      }
+
+      return { unique, cache }
+    },
+    { unique: 0, cache: {} }
+  ).unique
+}
+```
+
+actually uses lookahead indexing version:
+
+```js
+function lookaheadCount(arr) {
+  // base case
+  if (arr.length <= 1) return arr.length
+
+  // look at two elements at a time, and increment a value when there's a difference
+  let unique = 1 // by default, an array has at least one unique value
+  for (let i = 1; i < arr.length; i += 1) {
+    // O(n)
+    if (arr[i] - arr[i - 1]) {
+      // O(1)
+      unique += 1 // O(1)
+    }
+  }
+
+  return unique
+}
+```
