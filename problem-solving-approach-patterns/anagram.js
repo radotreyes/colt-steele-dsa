@@ -2,18 +2,21 @@
 /* eslint-disable guard-for-in */
 
 function isAnagram(str1, str2) {
-  const obj1 = {}
-  const obj2 = {}
+  const lookupTable = {}
+
+  // base case
+  if (str1.length !== str2.length) return false
+
+  // construct lookup table from str1
   for (const char of str1) {
-    obj1[char] = (obj1[char] || 0) + 1
-  }
-  for (const char of str2) {
-    obj2[char] = (obj2[char] || 0) + 1
+    lookupTable[char] = (lookupTable[char] || 0) + 1
   }
 
-  for (const key in obj1) {
-    if (!(key in obj2)) return false
-    if (obj1[key] !== obj2[key]) return false
+  // look up if a char exists in the lookup table, and remove characters as we find them
+  for (const char of str2) {
+    if (!(char in lookupTable)) return false // check if char is in the lookup table
+    if (lookupTable[char] <= 0) return false // if there are zero or negative instances of chars from str1 return false
+    lookupTable[char] -= 1
   }
 
   return true
