@@ -16,14 +16,17 @@
 - dragon: SRY
 - martin: 🤔
 - martin: okay, hello mr. dragon, is the first number in this list odd?
-- dragon: NAH B
-- martin: \*secretly removes the first number\*
-- martin: okay, hello mr. dragon, is the first number in this list odd?
-- dragon: NAH B
-- martin: \*secretly removes the first number\*
-- ...
-- martin: okay, hello mr. dragon, is the first number in this list odd?
-- dragon: THAT LIST IS EMPTY, WHADDIYOUMEAN
+  - dragon: NAH B
+    - martin: \*secretly removes the first number\*
+      - martin: okay, hello mr. dragon, is the first number in this list odd?
+        - dragon: NAH B
+          - martin: \*secretly removes the first number\*
+            - ...
+              - martin: okay, hello mr. dragon, is the first number in this list odd?
+                - dragon: THAT LIST IS EMPTY, WHADDIYOUMEAN
+              - martin: oh, guess not then
+      - oh, guess not then
+- oh, guess not then
 
 ## objectives for this section
 
