@@ -178,3 +178,67 @@ function lookaheadCount(arr) {
   return unique
 }
 ```
+
+### sliding windows
+
+- involves creating a "window", which can either be an array or number, from one position to another
+- depending on a certain condition, the window either increases or closes (and a new window is created)
+- very useful for keeping track of a subset of data in an array or string
+
+#### implementation
+
+- **problem**: find the longest sequence of unique characters in a string
+- **problem**: find the maximum sum of n adjacent digits in an array
+- it's kind of like doing the worm lol
+
+```js
+function maxSubarraySum(arr, size) {
+  if (size > arr.length) return null
+  let max = 0
+
+  // calculate the initial sum
+  for (let i = 0; i < size; i += 1) {
+    // O(n)
+    max += arr[i]
+  }
+
+  // sliding window
+  // iterate over the whole array, removing the last element in the window
+  // and adding in the next
+  let windowSum = max
+  for (let j = 0; j < arr.length - size; j += 1) {
+    // O(n)
+    // X_13 = X_13 - X1 + X4
+    windowSum = windowSum - arr[j] + arr[j + size]
+    max = Math.max(max, windowSum)
+    console.log(windowSum)
+  }
+
+  return max // O(2n) ~== O(n)
+}
+```
+
+- sliding windows is often better than lookahead, because number of iterations over the same array is significantly lower
+- when performing a large number of calculations in a lookahead function within the body of a for loop, time becomes expensive quickly
+- with a sliding window with window of size `n`, we first perform `n` operations **once**, then we only have to perform 4 (3 additions, 1 comparison) (or some other small, static number) over the length of the whole array.
+
+### divide and conquer
+
+- involves dividing a data set into smaller and smaller chunks, then repeating some process over the smallest desired subset.
+  - this means recursion or looping 90% of the time lol
+- RIDICULOUS DECREASE IN TIME COMPLEXITY **OH MY GOODNESS**
+
+#### implementation: binary search
+
+```js
+function binarySearch(arr, query) {
+  const n = Math.floor((arr.length - 1) / 2)
+  if (n > query) binarySearch(arr.splice(n, arr.length - 1, query)
+  else if (n < query) binarySearch(0, arr.splice(0, n))
+  else if (n === query) return n
+}
+```
+
+- it's good at searching
+- it's good at sorting
+- it's good at everything
